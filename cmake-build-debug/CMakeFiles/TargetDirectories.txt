@@ -1,0 +1,3 @@
+/home/jct/CLionProjects/paged-sort/cmake-build-debug/CMakeFiles/paged_sort.dir
+/home/jct/CLionProjects/paged-sort/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/jct/CLionProjects/paged-sort/cmake-build-debug/CMakeFiles/rebuild_cache.dir
