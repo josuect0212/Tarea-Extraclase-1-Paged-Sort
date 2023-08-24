@@ -2,6 +2,7 @@
 #include <cstring>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 // quickSort algorithm taken from https://www.programiz.com/dsa/quick-sort
 // insertionSort algorithm taken from https://www.programiz.com/dsa/insertion-sort#google_vignette
@@ -93,22 +94,37 @@ int main(int argCount, char* argVector[]) {
 
     std::vector<int> buffer(maxNums);
 
-    while(!input.eof()){
+    while (!input.eof()) {
         int numsRead = 0;
-        while (numsRead < maxNums && input.read(reinterpret_cast<char *>(&buffer[numsRead]), sizeof(int))) {
-            ++numsRead;
+        std::string line;
+        if (std::getline(input, line)) {
+            std::istringstream iss(line);
+            std::string numStr;
+            while (std::getline(iss, numStr, ',')) {
+                int num = std::stoi(numStr);
+                buffer[numsRead++] = num;
+            }
         }
-        if(algorithm == "QS"){
-            quickSort(&buffer[0], 0, numsRead-1);
+        if (algorithm == "QS") {
+            quickSort(&buffer[0], 0, numsRead - 1);
         }
-        if(algorithm == "IS"){
+        if (algorithm == "IS") {
             insertionSort(&buffer[0], numsRead);
         }
-        if(algorithm == "SS"){
+        if (algorithm == "SS") {
             selectionSort(&buffer[0], numsRead);
         }
-        if(algorithm == "BS"){
+        if (algorithm == "BS") {
             bubbleSort(&buffer[0], numsRead);
         }
+        for (int i = 0; i < numsRead; ++i) {
+            output << buffer[i];
+            if (i < numsRead - 1) {
+                output << ","; // Separate with commas
+            }
+        }
+        output << "\n";
     }
+    output.flush();
+    output.close();
 }
