@@ -75,6 +75,7 @@ void bubbleSort(int array[], int size){
 }
 
 int main(int argCount, char* argVector[]) {
+
     std::string inputFile, algorithm, outputFile;
 
     for(int i = 1; i < argCount; i += 2){
@@ -88,22 +89,24 @@ int main(int argCount, char* argVector[]) {
             outputFile = argVector[i +1];
         }
     }
-
     std::ifstream input(inputFile, std::ios::binary);
+    if (!input.is_open()) {
+        std::cerr << "Failed to open input file: " << inputFile << std::endl;
+        return 1; // Return an error code
+    }
     std::ofstream output(outputFile, std::ios::binary);
 
     std::vector<int> buffer(maxNums);
 
-    while (!input.eof()) {
+    std::string line;
+
+    while (std::getline(input, line)) {
         int numsRead = 0;
-        std::string line;
-        if (std::getline(input, line)) {
-            std::istringstream iss(line);
-            std::string numStr;
-            while (std::getline(iss, numStr, ',')) {
-                int num = std::stoi(numStr);
-                buffer[numsRead++] = num;
-            }
+        std::istringstream iss(line);
+        std::string numStr;
+        while (std::getline(iss, numStr, ',')) {
+            int num = std::stoi(numStr);
+            buffer[numsRead++] = num;
         }
         if (algorithm == "QS") {
             quickSort(&buffer[0], 0, numsRead - 1);
